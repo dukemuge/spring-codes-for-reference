@@ -1,0 +1,115 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-text-field.html">
+<link rel="import" href="../../bower_components/vaadin-form-layout/vaadin-form-layout.html">
+<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/range-datepicker/range-datepicker.html">
+<link rel="import" href="../../bower_components/range-datepicker/range-datepicker-input.html">
+
+<dom-module id="booking-form">
+    <template>
+        <style include="view-styles">
+
+            .booking-form {
+                width: 20em;
+                height: 22em;
+                padding-left: 24px;
+                padding-right: 24px;
+                margin: 0px;
+                border: 1px solid #e4e4e4;
+                background-color: #ffffff;
+            }
+
+            .delimiter {
+                border-bottom: 1px solid #DBDBDB;
+            }
+
+            .book-button {
+                cursor: pointer;
+                transition: background 0.2s, border-color 0.2s;
+                border-radius: 4px;
+                width: 100%;
+                border-width: 2px;
+                margin-top: 1em;
+                border-color: transparent;
+            }
+
+            .price {
+                margin: 0px;
+                word-wrap: break-word;
+                font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
+                font-size: 22px;
+                letter-spacing: -0.2px;
+                padding-top: 0px;
+                padding-bottom: 0px;
+                color: #484848;
+                font-weight: 700;
+                display: inline;
+            }
+
+            .total {
+                display: table;
+                width: 100%;
+                color: #484848;
+                font-size: 20px;
+                margin-top: 1em;
+            }
+
+            .total-text {
+                display: table-cell;
+                width: 50%;
+                vertical-align: middle;
+            }
+
+            .total-price {
+                display: table-cell;
+                vertical-align: middle;
+            }
+        </style>
+
+        <vaadin-form-layout id="form" class="booking-form">
+            <div style="margin-top:16px;margin-bottom:24px">
+
+                <div>
+                    <span class="price">
+                        <span id="priceSpan"></span>
+                    </span>
+                        <span>per night</span>
+                </div>
+
+                <div style="margin-top:16px;margin-bottom:16px">
+                    <div class="delimiter"></div>
+                </div>
+
+                <range-datepicker-input date-format="DD.MM.YYYY" disabled-days="[[disabledDays]]">
+                    <template>
+                        <div class="layout vertical">
+                            <paper-input label="Check In" value="{{dateFrom}}"></paper-input>
+                            <paper-input label="Check Out" value="{{dateTo}}"></paper-input>
+                        </div>
+                    </template>
+                </range-datepicker-input>
+
+                <div class="total">
+                    <div class="total-text"><span id="totalTextSpan">Total</span></div>
+                    <div class="total-price"><span id="totalPriceSpan"></span></div>
+                </div>
+
+                <vaadin-button id="book" class="book-button" theme="primary">
+                    <span>Book</span>
+                </vaadin-button>
+
+            </div>
+        </vaadin-form-layout>
+    </template>
+
+    <script>
+        class BookingForm extends Polymer.Element {
+            static get is() {
+                return 'booking-form'
+            }
+        }
+        customElements.define(BookingForm.is, BookingForm);
+    </script>
+
+</dom-module>

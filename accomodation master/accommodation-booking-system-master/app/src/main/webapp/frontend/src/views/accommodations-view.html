@@ -1,0 +1,33 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-text-field.html">
+<link rel="import" href="../../bower_components/vaadin-icons/vaadin-icons.html"><
+<link rel="import" href="../components/board-layout.html">
+
+
+<dom-module id="accommodations-view">
+    <template>
+        <style include="view-styles">
+
+        </style>
+
+        <div class="view-toolbar">
+            <vaadin-text-field id="searchField" placeholder="Try 'Cyprus' or 'Barcelona'" class="search-field">
+                <iron-icon icon="lumo:search" slot="prefix"></iron-icon>
+            </vaadin-text-field>
+        </div>
+
+        <div style="background: rgba(244, 245, 249, 1)">
+            <board-layout id="accommodationsBoardLayout"></board-layout>
+        </div>
+    </template>
+
+    <script>
+        class AccommodationsView extends Polymer.Element {
+            static get is() {
+                return 'accommodations-view'
+            }
+        }
+        customElements.define(AccommodationsView.is, AccommodationsView);
+    </script>
+
+</dom-module>

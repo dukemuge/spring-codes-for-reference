@@ -1,0 +1,145 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/vaadin-form-layout/vaadin-form-layout.html">
+<link rel="import" href="../../bower_components/vaadin-text-field/vaadin-text-field.html">
+<link rel="import" href="../../bower_components/vaadin-icons/vaadin-icons.html">
+<link rel="import" href="../../bower_components/vaadin-button/vaadin-button.html">
+<link rel="import" href="../../bower_components/vaadin-upload/vaadin-upload.html">
+<link rel="import" href="../../bower_components/vaadin-ordered-layout/vaadin-vertical-layout.html">
+<link rel="import" href="../../bower_components/vaadin-progress-bar/vaadin-progress-bar.html">
+
+<dom-module id="new-accommodation-view">
+    <template>
+        <style include="view-styles">
+
+            .new-accommodation-form {
+                display: block;
+                background: white;
+                margin-right: auto;
+                margin-left: auto;
+                margin-top: 1em;
+                width: 40vw;
+                padding: 1em;
+            }
+
+            .new-accommodation-title {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 1em;
+                font-size: 38px;
+                color: #484848;
+                font-weight: 700;
+                line-height: 42px;
+            }
+
+            .small-field {
+                width: 12em;
+            }
+
+            .dropdown {
+                float: left;
+                overflow: hidden;
+            }
+
+            .dropdown-content-new-accommodation {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content-new-accommodation a {
+                float: none;
+                color: black;
+                text-decoration: none;
+                display: block;
+                text-align: left;
+            }
+
+            .dropdown-content-new-accommodation a:hover {
+                background-color: #ddd;
+            }
+
+            .dropdown:hover .dropdown-content-new-accommodation {
+                display: block;
+            }
+
+            .dropdown-item {
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                border: none;
+                background: none;
+                cursor: pointer;
+                font-size: var(--lumo-font-size-s);
+                color: var(--lumo-secondary-text-color);
+            }
+
+        </style>
+        <div id="progressBarDiv">
+        </div>
+
+        <div class="new-accommodation-form">
+            <span class="new-accommodation-title">Add new accommodation</span>
+
+                <vaadin-text-field prevent-invalid-input pattern="[a-zA-Z 0-9]+" id="accommodationName" minlength="1" maxlength="255" label="Accommodation name" required="true" style="width: inherit"></vaadin-text-field>
+                <br>
+                <div style="display: flex; flex-direction: row; justify-content: space-between; width: inherit">
+                    <vaadin-text-field id="numGuests" prevent-invalid-input pattern="[1-9][0-9]?" class="small-field" label="Number of guests" required="true" >
+                        <iron-icon icon="vaadin:group" slot="prefix"></iron-icon>
+                    </vaadin-text-field>
+                    <vaadin-text-field id="numBeds" prevent-invalid-input pattern="([0-9])|([1-9][0-9])" class="small-field" label="Number of beds" required="true">
+                        <iron-icon icon="vaadin:bed" slot="prefix"></iron-icon>
+                    </vaadin-text-field>
+                    <vaadin-text-field id="numBaths" prevent-invalid-input pattern="([0-9])|([1-9][0-9])" class="small-field" label="Number of bathrooms" required="true">
+                        <iron-icon icon="vaadin:lifebuoy" slot="prefix"></iron-icon>
+                    </vaadin-text-field>
+                </div>
+
+                <div class="dropdown">
+                    <vaadin-text-field id="chosenAccommodationType" readonly label="Accommodation type" required placeholder="Select type">
+                        <iron-icon icon="vaadin:chevron-down-small" slot="suffix"></iron-icon>
+                    </vaadin-text-field>
+                    <div class="dropdown-content-new-accommodation">
+                        <vaadin-vertical-layout id="accommodationTypes">
+                        </vaadin-vertical-layout>
+                    </div>
+                </div>
+                <br>
+                <div style="display: flex; flex-direction: row; justify-content: space-between; width: inherit">
+                    <vaadin-text-field id="country" prevent-invalid-input pattern="[a-zA-Z ]+" minlength="1" maxlength="255" class="small-field" label="Country" required="true"></vaadin-text-field>
+                    <vaadin-text-field id="city" prevent-invalid-input pattern="[a-zA-Z ]+" minlength="1" maxlength="255" class="small-field" label="City" required="true"></vaadin-text-field>
+                    <vaadin-text-field id="street" prevent-invalid-input pattern="[a-zA-Z 0-9]+" minlength="1" maxlength="255" class="small-field" label="Street" required="true"></vaadin-text-field>
+                </div>
+                <br>
+                <vaadin-text-field id="pricePerNight" prevent-invalid-input pattern="[1-9][0-9]{0,6}" class="number-field" theme="align-right" label="Price per night" required="true">
+                    <div slot="suffix">CZK</div>
+                </vaadin-text-field>
+                <br>
+
+                <div style="margin-top: 2em">
+                    <span style="font-size: 20px; color: #484848; font-weight: 600;">Upload at least one photo of accommodation</span>
+                    <vaadin-upload id="upload" maxFiles="20" style="margin-top: 10px" accept="image/jpeg,image/png">
+                        <span slot="drop-label">Drop photos here</span>
+                    </vaadin-upload>
+                </div>
+
+                <br>
+                <vaadin-button id="createButton" style="margin-top: 1em; display: flex;justify-content: center;cursor: pointer" theme="primary">Create</vaadin-button>
+        </div>
+    </template>
+
+    <script>
+        class NewAccommodationView extends Polymer.Element {
+            static get is() {
+                return 'new-accommodation-view'
+            }
+        }
+        customElements.define(NewAccommodationView.is, NewAccommodationView);
+    </script>
+
+</dom-module>

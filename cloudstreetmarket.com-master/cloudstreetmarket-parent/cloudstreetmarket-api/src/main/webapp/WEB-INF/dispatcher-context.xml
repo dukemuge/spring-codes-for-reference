@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc 
+	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+	http://www.springframework.org/schema/util 
+	http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/oxm 
+	http://www.springframework.org/schema/oxm/spring-oxm-4.0.xsd
+	http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security/spring-security-4.0.xsd
+	http://www.springframework.org/schema/rabbit
+	http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+	
+	<context:annotation-config/>
+	
+	<context:component-scan base-package="edu.zipcloud.cloudstreetmarket.api,edu.zipcloud.cloudstreetmarket.core"/>
+	<context:property-placeholder location="file:${user.home}/app/cloudstreetmarket.properties" />
+	
+	<import resource="classpath*:/META-INF/spring/security-config.xml" />
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer"/>
+		</property>
+	    <property name="messageConverters">
+	        <list>
+	        	<ref bean="jsonConverter"/>
+                <ref bean="xmlConverter"/>
+                <ref bean="resourceConverter"/>
+                <ref bean="byteArrayConverter"/>
+	        </list>
+	    </property>
+		<property name="customArgumentResolvers">
+			<list>
+				<bean class="net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver"/>
+		        <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
+			</list>
+		</property>
+	    <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+	</bean>
+
+	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	    <property name="favorPathExtension" value="true" />
+	    <property name="favorParameter" value="false" />
+	    <property name="ignoreAcceptHeader" value="false"/>
+	    <property name="parameterName" value="format" />
+	    <property name="useJaf" value="false"/>
+	    <property name="defaultContentType" value="application/json" />
+
+	    <property name="mediaTypes">
+	        <map>
+	            <entry key="json" value="application/json" />
+	            <entry key="xml" value="application/xml" />
+	            <entry key="png" value="image/png"/>
+	       </map>
+	    </property>
+	</bean>
+
+	<bean class="com.mangofactory.swagger.configuration.SpringSwaggerConfig" />
+	<bean class="edu.zipcloud.cloudstreetmarket.api.config.AnnotationConfig"/>
+
+    <bean class="org.springframework.social.connect.web.ProviderSignInController">
+	    <constructor-arg ref="connectionFactoryLocator"/>
+	    <constructor-arg ref="usersConnectionRepository"/>
+	    <constructor-arg ref="signInAdapter"/>
+	    <property name="signUpUrl" value="/oauth2/signup"/>
+	    <property name="postSignInUrl" value="${frontend.home.page.url}"/>
+    </bean>
+
+	<bean id="signInAdapter" class="edu.zipcloud.cloudstreetmarket.api.signin.SignInAdapterImpl"/>
+
+	<mvc:interceptors>
+		<bean class="edu.zipcloud.cloudstreetmarket.api.controllers.CloudstreetApiWCI"/>
+	</mvc:interceptors>
+
+	<bean id="connectionRepository" factory-method="createConnectionRepository" factory-bean="usersConnectionRepository" scope="request">
+	    <constructor-arg value="#{request.userPrincipal.name}" />
+	    <aop:scoped-proxy proxy-target-class="false" />
+	</bean>
+
+	<bean id="providerSignInUtils" class="org.springframework.social.connect.web.ProviderSignInUtils">
+			<constructor-arg ref="connectionFactoryLocator" />
+			<constructor-arg ref="usersConnectionRepository" />
+	</bean>
+
+	<bean class="org.springframework.data.web.PagedResourcesAssembler">
+		<constructor-arg><null/></constructor-arg>
+		<constructor-arg><null/></constructor-arg>
+	</bean>
+	
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+    <rabbit:connection-factory id="connectionFactory" host="localhost" username="guest" password="guest" />
+    <rabbit:admin connection-factory="connectionFactory" />
+    <rabbit:template id="messagingTemplate" connection-factory="connectionFactory"/>
+
+	<security:global-method-security secured-annotations="enabled" proxy-target-class="true" pre-post-annotations="enabled" authentication-manager-ref="authenticationManager"/>
+
+	<!-- Serve static content-->
+	<mvc:default-servlet-handler />
+	<mvc:annotation-driven />
+
+</beans>
