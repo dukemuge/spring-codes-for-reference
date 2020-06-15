@@ -26,7 +26,7 @@
 		<dom4j.version>1.6.1</dom4j.version>
 		<junit.version>4.9</junit.version>
 		<commons-lang3.version>3.2</commons-lang3.version>
-		<commons-collections.version>3.2</commons-collections.version>
+		<commons-collections.version>3.2.2</commons-collections.version>
 		<commons.codec.version>1.9</commons.codec.version>
 		<persistence.api>1.0.2</persistence.api>
 		<jee.version>7.0</jee.version>
