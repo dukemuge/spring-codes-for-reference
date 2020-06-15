@@ -12,7 +12,7 @@
 		<zipcloud.version>0.0.1-SNAPSHOT</zipcloud.version>
 		<csm.group.id>edu.zipcloud.cloudstreetmarket</csm.group.id>
 		<spring.version>4.2.1.RELEASE</spring.version>
-		<spring.security.version>4.0.2.RELEASE</spring.security.version>
+		<spring.security.version>5.3.3.RELEASE</spring.security.version>
 		<spring.hateoas.version>0.17.0.RELEASE</spring.hateoas.version>
 		<spring.data.rest.version>2.3.0.RELEASE</spring.data.rest.version>
 		<spring-data-jpa.version>1.8.0.RELEASE</spring-data-jpa.version>
