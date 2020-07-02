@@ -15,7 +15,7 @@
 	<org.springframework.security.version>4.2.3.RELEASE</org.springframework.security.version>
 		<junit.version>4.12</junit.version>
 		<servlet.version>4.0.0</servlet.version>
-		<mysql.connector.version>8.0.8-dmr</mysql.connector.version>
+		<mysql.connector.version>8.0.16</mysql.connector.version>
 		 <spring-orm.version>5.0.0.RELEASE</spring-orm.version>
 	</properties>
 
