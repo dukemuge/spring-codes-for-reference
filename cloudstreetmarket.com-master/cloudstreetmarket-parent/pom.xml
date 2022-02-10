@@ -30,7 +30,7 @@
 		<commons.codec.version>1.9</commons.codec.version>
 		<persistence.api>1.0.2</persistence.api>
 		<jee.version>7.0</jee.version>
-		<hibernate.version>4.3.10.Final</hibernate.version>
+		<hibernate.version>5.4.24.Final</hibernate.version>
 		<javassist.version>3.18.2-GA</javassist.version>
 		<commons-dbcp2.version>2.0.1</commons-dbcp2.version>
 
