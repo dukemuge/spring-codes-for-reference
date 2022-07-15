@@ -16,7 +16,7 @@
 		<slf4j.version>1.7.5</slf4j.version>
 		<dom4j.version>1.6.1</dom4j.version>
 		<junit.version>4.4</junit.version>
-		<jackson.version>2.5.1</jackson.version>
+		<jackson.version>2.12.6.1</jackson.version>
 		<commons.codec.version>1.9</commons.codec.version>
 		<commons-lang3.version>3.0</commons-lang3.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
